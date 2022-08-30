@@ -11,6 +11,7 @@ const db = require('../models');
 
 // INDEX / GET - localhost:4000/posts
 router.get('/', async (req, res) => {
+    // console.log(req.session)
     try {
         const posts = await db.Posts.find();
         const context = { posts: posts };

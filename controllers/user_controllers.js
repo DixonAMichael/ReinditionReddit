@@ -11,6 +11,7 @@ router.use(express.urlencoded({ extended: true }));
 
 // MODEL IMPORT
 const {User} = require('../models');
+const {Post} = require('../models')
 console.log(User);
 
 // GET LOGIN ROUTE 
@@ -80,13 +81,40 @@ router.post('/register', async (req, res, next) => {
 router.get("/logout", async function (req, res) {
     try {
         await req.session.destroy();
-        return res.redirect("/login");
+        return res.redirect("/users/login");
     } catch (error) {
         console.log(error);
         return res.send(error);
     }
 });
 
+router.get("/", (req, res) => {
+    Post.find({})
+              // here we are adding the user to the populate command so we get both the product and user on a review
+      .populate("post user")
+      .exec((error, allpost) => {
+        if (error) {
+          console.log(error);
+          req.error = error;
+          return next();
+        }
+  
+        Post.find({}, (error, allPosts) => {
+          if (error) {
+            console.log(error);
+            req.error = error;
+            return next();
+          }
+  
+          const context = {
+            post: allpost,
+            posts: allPosts,
+          };
+  
+          return res.render("post", context);
+        });
+      });
+  });
 
 
 

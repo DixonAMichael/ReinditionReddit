@@ -1,0 +1,47 @@
+<div class="box">
+    <article class="media">
+      <div class="media-left">
+        <figure class="image is-64x64">
+          <img src="<%= post.user.avatar %>" alt="Image" />
+        </figure>
+      </div>
+      <div class="media-content">
+        <div class="content">
+          <strong> <%= post.user.username %> </strong>
+          <small> <%= new Date(post.createdAt).toLocaleString() %> </small>
+          <br />
+          <!-- create our stars -->
+  
+          <% for( let index = 0; index < 5; index++ ) { %> <% if (post.rating >
+          index) { %>
+          <span class="icon">
+            <i class="fas fa-star yellow"></i>
+          </span>
+          <% } else { %>
+          <span class="icon">
+            <i class="fas fa-star"></i>
+          </span>
+          <% } %> <% } %>
+  
+          <br />
+          <%= review.content %>
+  
+          <hr />
+          <a href="/posts/<%= post.posts._id %>"
+            ><%= post.product.name %></a
+          >
+        </div>
+      </div>
+      <div class="media-right">
+        <section class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link"></a>
+  
+          <div class="navbar-dropdown">
+            <a class="button is-primary m-2 navbar-item"> Edit </a>
+            <hr class="navbar-divider" />
+            <a class="button is-danger m-2 navbar-item">Remove</a>
+          </div>
+        </section>
+      </div>
+    </article>
+  </div>

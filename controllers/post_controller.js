@@ -28,6 +28,7 @@ router.use(express.urlencoded({ extended: true }));
 
 // MODEL IMPORT
 const db = require('../models');
+const { debugPort } = require('process');
 
 
 // INDEX / GET - localhost:4000/posts
@@ -86,7 +87,7 @@ router.get('/:id', async (req, res) => {
         const foundPost = await db.Posts.findById(req.params.id)
         const postInfo = await db.Posts.find({ post: foundPost._id })
         const postComment = await db.Comment.find({ postID })
-        console.log(postComment)
+        // console.log(postComment)
         let context = { posts: foundPost, id: foundPost._id, comment: postComment }
 
         if (req.session) {
@@ -157,14 +158,14 @@ router.put("/:id", async (req, res, next) => {
 
 // todo 
 router.post('/', (req, res, next) => {
-    let obj = {
+    let obj = upload + {
         img: {
             data: fs.readFileSync(path.join(__dirname + '/posts/' + req.file.filename)),
             contentType: 'image/png'
         }
     }
-
-    db.create(obj, (err, item) => {
+    
+    db.Posts.create(obj, (err, item) => {
         if (err) {
             console.log(err);
         }

@@ -8,6 +8,7 @@ const path = require('path')
 const multer = require('multer')
 
 // todo
+
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads')
@@ -16,7 +17,7 @@ let storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now())
     }
 });
-// todo
+  
 let upload = multer({ storage: storage });
 
 
@@ -157,21 +158,23 @@ router.put("/:id", async (req, res, next) => {
 
 
 // todo 
-router.post('/', (req, res, next) => {
-    let obj = upload + {
+router.post('/', upload.single('image'), (req, res, next) => {
+  
+    var obj = {
+        name: req.body.name,
+        desc: req.body.desc,
         img: {
-            data: fs.readFileSync(path.join(__dirname + '/posts/' + req.file.filename)),
+            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
     }
-    
     db.Posts.create(obj, (err, item) => {
         if (err) {
             console.log(err);
         }
         else {
-            item.save();
-            res.redirect('/posts');
+            // item.save();
+            res.redirect('/');
         }
     });
 });

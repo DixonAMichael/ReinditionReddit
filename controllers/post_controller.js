@@ -2,13 +2,33 @@ const express = require('express');
 const session = require('express-session');
 const { Posts } = require('../models');
 const router = express.Router();
+// todo
+const fs = require('fs')
+const path = require('path')
+const multer = require('multer')
+
+// todo
+let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+// todo
+let upload = multer({ storage: storage });
+
+
 
 // MIDDLEWARE
 router.use(express.json());
-router.use(express.urlencoded({ extended: false }));
+router.use(express.urlencoded({ extended: true }));
+
 
 // MODEL IMPORT
 const db = require('../models');
+
 
 // INDEX / GET - localhost:4000/posts
 router.get('/', async (req, res) => {
@@ -27,10 +47,10 @@ router.get('/', async (req, res) => {
 // NEW / GET- localhost:4000/posts/new
 router.get('/new', (req, res) => {
     try {
-        if(req.session.currentUser){
-       
+        if (req.session.currentUser) {
+
             const session = req.session;
-            context = { session: session}
+            context = { session: session }
             res.render('new.ejs', context)
         } else {
             res.redirect('/login');
@@ -43,13 +63,20 @@ router.get('/new', (req, res) => {
 // CREATE / POST - localhost:4000/posts/create
 router.post('/', async (req, res, next) => {
     const createdPost = req.body;
+    const newPost = await db.Posts.create(createdPost);
     try {
-        const newPost = await db.Posts.create(createdPost);
         res.redirect('/posts');
     } catch (err) {
         console.log(err);
         next();
     }
+});
+
+// todo
+router.get("/", function (req, res) {
+
+    // Sending index.html file as response to the client
+    res.sendFile(__dirname + "/new.ejs");
 });
 
 // SHOW / GET - localhost:4000/posts/_id
@@ -58,13 +85,13 @@ router.get('/:id', async (req, res) => {
         let postID = req.params.id;
         const foundPost = await db.Posts.findById(req.params.id)
         const postInfo = await db.Posts.find({ post: foundPost._id })
-        const postComment = await db.Comment.find({postID})
+        const postComment = await db.Comment.find({ postID })
         console.log(postComment)
-        let context = { posts: foundPost, id: foundPost._id, comment: postComment}
+        let context = { posts: foundPost, id: foundPost._id, comment: postComment }
 
-        if(req.session){
+        if (req.session) {
             const session = req.session;
-            context = { posts: foundPost, id: foundPost._id, comment: postComment, session: session}
+            context = { posts: foundPost, id: foundPost._id, comment: postComment, session: session }
         }
         res.render('show.ejs', context)
 
@@ -89,9 +116,9 @@ router.get('/:id/edit', async (req, res) => {
 
         const editPost = await db.Posts.findById(req.params.id)
         let context = { post: editPost, id: editPost._id }
-        if(req.session.currentUser){
+        if (req.session.currentUser) {
             const session = req.session;
-            context = { post: editPost, id: editPost._id, session: session}
+            context = { post: editPost, id: editPost._id, session: session }
             res.render('edit.ejs', context)
         } else {
             res.redirect('/login')
@@ -104,10 +131,10 @@ router.get('/:id/edit', async (req, res) => {
 
 // COMMENTS ROUTE
 router.put('/:id/comments', async (req, res, next) => {
-    try{
+    try {
         let post = await db.Comment.create(req.body);
-    res.redirect(`/posts/${req.params.id}`)
-    } catch(err) {
+        res.redirect(`/posts/${req.params.id}`)
+    } catch (err) {
         console.log(err)
         next()
     }
@@ -125,6 +152,27 @@ router.put("/:id", async (req, res, next) => {
         console.log(err)
         next()
     }
+});
+
+
+// todo 
+router.post('/', (req, res, next) => {
+    let obj = {
+        img: {
+            data: fs.readFileSync(path.join(__dirname + '/posts/' + req.file.filename)),
+            contentType: 'image/png'
+        }
+    }
+
+    db.create(obj, (err, item) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            item.save();
+            res.redirect('/posts');
+        }
+    });
 });
 
 module.exports = router;

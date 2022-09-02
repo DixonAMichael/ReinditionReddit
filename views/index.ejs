@@ -13,8 +13,7 @@
                             r/<%= posts[i].community %>
 
 
-                                <span class="contentAuthor"> - <%= posts[i].username %> - <%= posts[i].createdAt
-                                        %>
+                                <span class="contentAuthor"> - <%= posts[i].username %> - <%= posts[i].createdAt %>
                                 </span>
                         </p>
 
@@ -22,6 +21,7 @@
                         <p class="contentTitle">
                             <%= posts[i].title%>
                         </p>
+                        
                         <img class="contentImage" src="<%= posts[i].image %>">
                         <% if(!posts[i].image) { %>
                             <p class="contentBody">
@@ -52,7 +52,6 @@
                             </form>
                         </div>
                     </div>
-
     </body>
 
     </html>

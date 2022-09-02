@@ -5,12 +5,11 @@
         <%- include('include/_nav') %>
             <div class="containerMain">
                 <div class="contentDiv">
-                    <form class="form1" action="/posts" method="POST">
+                    <form class="form1" action="/posts" method="POST" >
                         <div class="div3">
                             <label class="label1" for="post">Post Title</label>
                             <input class="input1" type="text" placeholder="Title" name="title" />
                         </div>
-
                         <div class="div5">
                             <label class="label2" for="community">Community</label>
                             <input class="input2" type="text" placeholder="Community Name" name="community" />
@@ -18,6 +17,8 @@
                         <div class="div6">
                             <label class="label3" for="body">Image URL</label>
                             <input class="input3" text="text" placeholder="http:// (Optional)" name="image" />
+                             <!-- todo -->
+                            <input class="input3" type="file" name="img.data">
                         </div>
                         <div class="div7">
                             <label class="label4" for="body">Text Body</label>
@@ -25,11 +26,11 @@
                         </div>
                         <div class="div7">
                             <label hidden class="label" for="username">Username</label>
-                            <input hidden class="input3" type="text" value="<%= session.currentUser.username %>" name="username"></input>
+                            <input hidden class="input3" type="text" value="<%= session.currentUser.username %>"
+                                name="username"></input>
                         </div>
                         <button class="createButton">Post</button>
                     </form>
-                   
                 </div>
             </div>
             <div class="sidebar">

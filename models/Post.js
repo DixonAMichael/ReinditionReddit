@@ -17,6 +17,14 @@ const postSchema = new mongoose.Schema(
         image: {type: String},
         username: {type: String},
         // comments: [{type: String}]
+        // todo
+        name: String,
+        desc: String,
+        img:
+        {
+        data: Buffer,
+        contentType: String
+        }
     },
     { timestamps: true },
     

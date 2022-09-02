@@ -18,5 +18,9 @@ mongoose.connection.on('error', (error) => console.log(
 mongoose.connection.on('disconnnected', () => console.log(
     `${new Date().toLocaleTimeString()}: MongoDB disconnected.`
 ));
+mongoose.connect(process.env.MONGO_URL,
+    { useNewUrlParser: true, useUnifiedTopology: true }, err => {
+        console.log('connected')
+    });
 
 module.exports = connection;

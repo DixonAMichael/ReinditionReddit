@@ -11,10 +11,10 @@ const multer = require('multer')
 
 let storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads')
+        cb(null, __dirname + '/uploads')
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
+        cb(null, file.fieldname + '-' + new Date().toISOString())
     }
 });
   
@@ -24,7 +24,7 @@ let upload = multer({ storage: storage });
 
 // MIDDLEWARE
 router.use(express.json());
-router.use(express.urlencoded({ extended: true }));
+router.use(express.urlencoded({ extended: false }));
 
 
 // MODEL IMPORT
@@ -63,16 +63,16 @@ router.get('/new', (req, res) => {
 });
 
 // CREATE / POST - localhost:4000/posts/create
-router.post('/', async (req, res, next) => {
-    const createdPost = req.body;
-    const newPost = await db.Posts.create(createdPost);
-    try {
-        res.redirect('/posts');
-    } catch (err) {
-        console.log(err);
-        next();
-    }
-});
+// router.post('/', async (req, res, next) => {
+//     const createdPost = req.body;
+//     const newPost = await db.Posts.create(createdPost);
+//     try {
+//         res.redirect('/posts');
+//     } catch (err) {
+//         console.log(err);
+//         next();
+//     }
+// });
 
 // todo
 router.get("/", function (req, res) {
@@ -85,11 +85,13 @@ router.get("/", function (req, res) {
 router.get('/:id', async (req, res) => {
     try {
         let postID = req.params.id;
+        // const images = await db.Posts.req.body
         const foundPost = await db.Posts.findById(req.params.id)
+        // console.log(foundPost)
         const postInfo = await db.Posts.find({ post: foundPost._id })
         const postComment = await db.Comment.find({ postID })
         // console.log(postComment)
-        let context = { posts: foundPost, id: foundPost._id, comment: postComment }
+        let context = { posts: foundPost, id: foundPost._id, comment: postComment}
 
         if (req.session) {
             const session = req.session;
@@ -158,22 +160,25 @@ router.put("/:id", async (req, res, next) => {
 
 
 // todo 
-router.post('/', upload.single('image'), (req, res, next) => {
-  
-    var obj = {
-        name: req.body.name,
-        desc: req.body.desc,
+router.post('/', upload.single('img'), (req, res, next) => {
+    const obj = {
+        title: req.body.title,
+        community: req.body.community,
+        body: req.body.body,
+        
         img: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
     }
+    console.log(req.file)
     db.Posts.create(obj, (err, item) => {
         if (err) {
             console.log(err);
         }
         else {
             // item.save();
+            // res.send(obj)
             res.redirect('/');
         }
     });

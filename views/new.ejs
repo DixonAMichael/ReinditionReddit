@@ -5,22 +5,21 @@
         <%- include('include/_nav') %>
             <div class="containerMain">
                 <div class="contentDiv">
-                    <form class="form1" action="/posts" method="POST" >
+                    <form class="form1" action="/posts" method="POST" enctype="multipart/form-data">
                         <div class="div3">
-                            <label class="label1" for="post">Post Title</label>
+                            <label class="label1" for="title">Post Title</label>
                             <input class="input1" type="text" placeholder="Title" name="title" />
                         </div>
-                        <div class="div5">
+                        <div class="div4">
                             <label class="label2" for="community">Community</label>
                             <input class="input2" type="text" placeholder="Community Name" name="community" />
                         </div>
-                        <div class="div6">
-                            <label class="label3" for="body">Image URL</label>
-                            <input class="input3" text="text" placeholder="http:// (Optional)" name="image" />
-                             <!-- todo -->
-                            <input class="input3" type="file" name="img.data">
+                        <div class="div5">
+                            <!-- todo -->
+                            <label for="img">Upload Image</label>
+                            <input type="file" id="img" name="img" value="">
                         </div>
-                        <div class="div7">
+                        <div class="div6">
                             <label class="label4" for="body">Text Body</label>
                             <textarea class="input4" type="text" placeholder="Text (optional)" name="body"></textarea>
                         </div>

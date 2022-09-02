@@ -6,33 +6,40 @@
 
         <%- include('include/_nav') %>
 
-            <% for (let i=posts.length-1; i >= 0; i--){ %>
-                <a href="/posts/<%= posts[i]._id %>" class="containerMain">
+        <% posts.forEach(function(post) { %>
+                
+                <a href="/posts/<%= post._id %>" class="containerMain">
                     <div class="contentDiv">
                         <p class="contentCommunity">
-                            r/<%= posts[i].community %>
+                            r/<%= post.community %>
 
 
-                                <span class="contentAuthor"> - <%= posts[i].username %> - <%= posts[i].createdAt %>
+                                <span class="contentAuthor"> - <%= post.username %> - <%= post.createdAt %>
                                 </span>
                         </p>
 
 
                         <p class="contentTitle">
-                            <%= posts[i].title%>
+                            <%= post.title%>
                         </p>
+
                         
-                        <img class="contentImage" src="<%= posts[i].image %>">
-                        <img class="contentImage" src="<%= posts[i].img  %>">
-                         
-                        <% if(!posts[i].image) { %>
+
+                        <% if (post.img.data !== undefined){%>
+                        <img src="data:image/<%=post.img.contentType%>;base64,
+                         <%=post.img.data.toString('base64')%>"height="250" width="250">
+
+                     <% } %>  
+                     <img class="contentImage" src="<%= post.image %>">
+
+                        <% if(!post.image) { %>
                             <p class="contentBody">
-                                <%= posts[i].body %>
+                                <%= post.body %>
                             </p>
                             <%}%>
                     </div>
                 </a>
-                <% } %>
+                <% }) %>
                     <div class="sidebar">
                         <div class="topCommunities">
                             Top Communities!

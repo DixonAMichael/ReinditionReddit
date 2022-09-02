@@ -17,8 +17,18 @@
                         <%= posts.title%>
                     </p>
                     <img class="contentImage" src="<%= posts.image %>">
-                    
+
                     <!-- todo -->
+                    <% if (posts.img !== undefined){%>
+                        <img src="data:image/<%=posts.img.contentType%>;base64,
+                     <%=posts.img.data.toString('base64')%>"height="150" width="150">
+
+                      <% }else{%>
+                        <img class="contentImage" src="<%= posts.image %>"height="250" width="250">
+                     <% } %>  
+
+                    
+
                     <h5><%= posts.name %></h5>
                     <h5><%= posts.name %></h5>
                    

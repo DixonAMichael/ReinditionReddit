@@ -168,3 +168,14 @@ nav {
     margin: 0;
     padding-right: 0.5em;
 }
+
+.contentImage {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+    max-width: 95%;
+    max-height: fit-content;
+    grid-row: 3;
+    grid-column: 2;
+}

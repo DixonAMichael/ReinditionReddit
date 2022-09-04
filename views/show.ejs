@@ -19,12 +19,12 @@
                     <img class="contentImage" src="<%= posts.image %>">
 
                     <!-- todo -->
-                    <% if (posts.img !== undefined){%>
-                        <img src="data:image/<%=posts.img.contentType%>;base64,
-                     <%=posts.img.data.toString('base64')%>"height="150" width="150">
+                    <% if (posts.img.data !== undefined){%>
+                        <img class="contentImage" src="data:image/<%=posts.img.contentType%>;base64,
+                     <%=posts.img.data.toString('base64')%>" width="90%">
 
                       <% }else{%>
-                        <img class="contentImage" src="<%= posts.image %>"height="250" width="250">
+                        <img class="contentImage" src="<%= posts.image %>"width="90%">
                      <% } %>  
 
                     

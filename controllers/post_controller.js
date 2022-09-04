@@ -160,7 +160,31 @@ router.put("/:id", async (req, res, next) => {
 
 
 // todo 
+// router.post('/', upload.single('img'), (req, res, next) => {
+//     const obj = {
+//         title: req.body.title,
+//         community: req.body.community,
+//         body: req.body.body,
+        
+//         img: {
+//             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+//             contentType: 'image/png'
+//         }
+//     }
+//     console.log(req.file)
+//     db.Posts.create(obj, (err, item) => {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             // item.save();
+//             // res.send(obj)
+//             res.redirect('/');
+//         }
+//     });
+// });
 router.post('/', upload.single('img'), (req, res, next) => {
+    if (req.file){
     const obj = {
         title: req.body.title,
         community: req.body.community,
@@ -170,6 +194,7 @@ router.post('/', upload.single('img'), (req, res, next) => {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
+        
     }
     console.log(req.file)
     db.Posts.create(obj, (err, item) => {
@@ -182,6 +207,24 @@ router.post('/', upload.single('img'), (req, res, next) => {
             res.redirect('/');
         }
     });
+}else{
+    const obj = {
+        title: req.body.title,
+        community: req.body.community,
+        body: req.body.body,
+    }
+    console.log(req.file)
+    db.Posts.create(obj, (err, item) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            // item.save();
+            // res.send(obj)
+            res.redirect('/');
+        }
+    });
+}
 });
 
 module.exports = router;

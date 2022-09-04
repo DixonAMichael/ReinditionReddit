@@ -26,11 +26,11 @@
                         
 
                         <% if (post.img.data !== undefined){%>
-                        <img src="data:image/<%=post.img.contentType%>;base64,
-                         <%=post.img.data.toString('base64')%>"height="250" width="250">
+                        <img class="contentImage" src="data:image/<%=post.img.contentType%>;base64,
+                         <%=post.img.data.toString('base64')%>"width="90%"%>
 
                      <% } %>  
-                     <img class="contentImage" src="<%= post.image %>">
+                     <img class="contentImage" src="<%= post.image %>" width="90%" >
 
                         <% if(!post.image) { %>
                             <p class="contentBody">

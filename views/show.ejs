@@ -51,7 +51,7 @@
                         <%= posts.title%>
                     </p>
                     <img class="contentImage" src="<%= posts.image %>">
-                   
+
                     <% if (posts.img.data !==undefined){%>
                         <img class="contentImage" src="data:image/<%=posts.img.contentType%>;base64,
                      <%=posts.img.data.toString('base64')%>" width="90%">
